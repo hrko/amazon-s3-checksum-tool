@@ -1,0 +1,13 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - GOOS=linux GOARCH=amd64 go build -o bin/s3checksum-linux-amd64 ./cmd/s3checksum
+      - GOOS=linux GOARCH=arm64 go build -o bin/s3checksum-linux-arm64 ./cmd/s3checksum
+      - GOOS=darwin GOARCH=amd64 go build -o bin/s3checksum-darwin-amd64 ./cmd/s3checksum
+      - GOOS=darwin GOARCH=arm64 go build -o bin/s3checksum-darwin-arm64 ./cmd/s3checksum
+      - GOOS=windows GOARCH=amd64 go build -o bin/s3checksum-windows-amd64.exe ./cmd/s3checksum
+      - GOOS=windows GOARCH=arm64 go build -o bin/s3checksum-windows-arm64.exe ./cmd/s3checksum

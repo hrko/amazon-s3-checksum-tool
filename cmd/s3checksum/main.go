@@ -17,14 +17,14 @@ import (
 func main() {
 
 	var file string
-	var bucket string
-	var key string
+	// var bucket string
+	// var key string
 	var manifestFile string
 	var threads int
 	var chunksize int64
 	var printHex bool
-	var region string
-	var awsProfile string
+	// var region string
+	// var awsProfile string
 	var usePathStyle bool
 
 	//
@@ -103,84 +103,84 @@ func main() {
 					return nil
 				},
 			},
-			{
-				Flags: []cli.Flag{
-					&cli.StringFlag{
-						Name:        "bucket",
-						Value:       "",
-						Usage:       "bucket",
-						Destination: &bucket,
-					},
-					&cli.StringFlag{
-						Name:        "key",
-						Value:       "",
-						Usage:       "key",
-						Destination: &key,
-					},
-					&cli.StringFlag{
-						Name:        "file",
-						Value:       "",
-						Usage:       "file",
-						Destination: &file,
-					},
-					&cli.StringFlag{
-						Name:        "manifest",
-						Value:       "manifest.json",
-						Usage:       "--manifest output.json will generate a json file with all the parts and the checksums so it can be verified later",
-						Destination: &manifestFile,
-					},
-					&cli.IntFlag{
-						Name:        "threads",
-						Value:       16,
-						Usage:       "--threads=10",
-						Destination: &threads,
-					},
-					&cli.Int64Flag{
-						Name:        "chunksize",
-						Value:       64,
-						Usage:       "--chunksize=10 will create 10MB chunks",
-						Destination: &chunksize,
-					},
-					&cli.BoolFlag{
-						Name:        "use-path-style",
-						Value:       false,
-						Usage:       "--use-path-style changes to path-style (old) insteaad of virtual-hosted style (new) s3 hostnames",
-						Destination: &usePathStyle,
-					},
-					&cli.StringFlag{
-						Name:        "region",
-						Value:       "us-west-2",
-						Usage:       "region",
-						Destination: &region,
-					},
-					&cli.StringFlag{
-						Name:        "profile",
-						Value:       "",
-						Usage:       "",
-						Destination: &awsProfile,
-					},
-				},
-				Name:  "upload",
-				Usage: "upload",
-				Action: func(c *cli.Context) error {
+			// {
+			// 	Flags: []cli.Flag{
+			// 		&cli.StringFlag{
+			// 			Name:        "bucket",
+			// 			Value:       "",
+			// 			Usage:       "bucket",
+			// 			Destination: &bucket,
+			// 		},
+			// 		&cli.StringFlag{
+			// 			Name:        "key",
+			// 			Value:       "",
+			// 			Usage:       "key",
+			// 			Destination: &key,
+			// 		},
+			// 		&cli.StringFlag{
+			// 			Name:        "file",
+			// 			Value:       "",
+			// 			Usage:       "file",
+			// 			Destination: &file,
+			// 		},
+			// 		&cli.StringFlag{
+			// 			Name:        "manifest",
+			// 			Value:       "manifest.json",
+			// 			Usage:       "--manifest output.json will generate a json file with all the parts and the checksums so it can be verified later",
+			// 			Destination: &manifestFile,
+			// 		},
+			// 		&cli.IntFlag{
+			// 			Name:        "threads",
+			// 			Value:       16,
+			// 			Usage:       "--threads=10",
+			// 			Destination: &threads,
+			// 		},
+			// 		&cli.Int64Flag{
+			// 			Name:        "chunksize",
+			// 			Value:       64,
+			// 			Usage:       "--chunksize=10 will create 10MB chunks",
+			// 			Destination: &chunksize,
+			// 		},
+			// 		&cli.BoolFlag{
+			// 			Name:        "use-path-style",
+			// 			Value:       false,
+			// 			Usage:       "--use-path-style changes to path-style (old) insteaad of virtual-hosted style (new) s3 hostnames",
+			// 			Destination: &usePathStyle,
+			// 		},
+			// 		&cli.StringFlag{
+			// 			Name:        "region",
+			// 			Value:       "us-west-2",
+			// 			Usage:       "region",
+			// 			Destination: &region,
+			// 		},
+			// 		&cli.StringFlag{
+			// 			Name:        "profile",
+			// 			Value:       "",
+			// 			Usage:       "",
+			// 			Destination: &awsProfile,
+			// 		},
+			// 	},
+			// 	Name:  "upload",
+			// 	Usage: "upload",
+			// 	Action: func(c *cli.Context) error {
 
-					if file == "" {
-						return fmt.Errorf("--file flag is required")
-					}
+			// 		if file == "" {
+			// 			return fmt.Errorf("--file flag is required")
+			// 		}
 
-					return s3checksum.Upload(context.Background(), &s3checksum.UploadOptions{
-						Bucket:       bucket,
-						Key:          key,
-						NumRoutines:  threads,
-						LocalFile:    file,
-						ManifestFile: manifestFile,
-						PartSize:     chunksize * 1024 * 1024,
-						Region:       region,
-						AWSProfile:   awsProfile,
-						UsePathStyle: usePathStyle,
-					})
-				},
-			},
+			// 		return s3checksum.Upload(context.Background(), &s3checksum.UploadOptions{
+			// 			Bucket:       bucket,
+			// 			Key:          key,
+			// 			NumRoutines:  threads,
+			// 			LocalFile:    file,
+			// 			ManifestFile: manifestFile,
+			// 			PartSize:     chunksize * 1024 * 1024,
+			// 			Region:       region,
+			// 			AWSProfile:   awsProfile,
+			// 			UsePathStyle: usePathStyle,
+			// 		})
+			// 	},
+			// },
 		},
 	}
 

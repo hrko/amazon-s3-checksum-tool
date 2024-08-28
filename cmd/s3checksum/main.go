@@ -7,11 +7,17 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math"
 	"os"
 
 	s3checksum "amazon-s3-checksum-tool"
 
 	"github.com/urfave/cli/v2"
+)
+
+const (
+	maxNumberOfParts = 10000
+	minPartSize      = 5 * 1024 * 1024
 )
 
 func main() {
@@ -47,8 +53,8 @@ func main() {
 					},
 					&cli.Int64Flag{
 						Name:        "chunksize",
-						Value:       64,
-						Usage:       "--chunksize=10 will create 10MB chunks",
+						Value:       0,
+						Usage:       "--chunksize=5242880 will create 5MiB chunks",
 						Destination: &partsize,
 					},
 					&cli.BoolFlag{
@@ -81,10 +87,25 @@ func main() {
 					if file == "" {
 						return fmt.Errorf("--file flag is required")
 					}
+
+					// if partsize is not set, calculate the part size based on the file size
+					if partsize == 0 {
+						fileInfo, err := os.Stat(file)
+						if err != nil {
+							return err
+						}
+						fileSize := fileInfo.Size()
+
+						partsize = int64(math.Ceil(float64(fileSize) / float64(maxNumberOfParts)))
+						if partsize < minPartSize {
+							partsize = minPartSize
+						}
+					}
+
 					mpf, err := s3checksum.NewMultipartFile(s3checksum.MultipartFileOpts{
 						FilePath:         file,
 						ManifestFilePath: manifestFile,
-						PartSize:         partsize * 1024 * 1024,
+						PartSize:         partsize,
 						Threads:          threads,
 					})
 					if err != nil {

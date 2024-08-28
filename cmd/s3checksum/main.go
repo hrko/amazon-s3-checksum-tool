@@ -21,7 +21,7 @@ func main() {
 	// var key string
 	var manifestFile string
 	var threads int
-	var chunksize int64
+	var partsize int64
 	var printHex bool
 	// var region string
 	// var awsProfile string
@@ -49,7 +49,7 @@ func main() {
 						Name:        "chunksize",
 						Value:       64,
 						Usage:       "--chunksize=10 will create 10MB chunks",
-						Destination: &chunksize,
+						Destination: &partsize,
 					},
 					&cli.BoolFlag{
 						Name:        "use-path-style",
@@ -84,7 +84,7 @@ func main() {
 					mpf, err := s3checksum.NewMultipartFile(s3checksum.MultipartFileOpts{
 						FilePath:         file,
 						ManifestFilePath: manifestFile,
-						PartSize:         chunksize * 1024 * 1024,
+						PartSize:         partsize * 1024 * 1024,
 						Threads:          threads,
 					})
 					if err != nil {
